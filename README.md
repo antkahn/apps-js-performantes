@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# App js performantes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Start
 
-## Available Scripts
+Install and lauch the app:
 
-In the project directory, you can run:
+```bash
+yarn
+yarn start
+```
 
-### `yarn start`
+You will see that your application has 3 pages:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- a Home where you can open a popin (from material-ui), displaying a datepicker (from react-dates)
+- a Graph page displaying some nice data (from highcharts)
+- a Code page displaying some very interesting code (from react-syntax-highlighter)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Initial state
 
-### `yarn test`
+Build your application:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+yarn build
+```
 
-### `yarn build`
+Lauch the python server that will serve your files with gzip on:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+cd build
+python ../GzipSimpleHTTPServer.py
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Go to http://localhost:8000/, refresh your page with the Network tab opened: you can see that our website loads in 1.20s, and the time to see the first colored pixel (DOMContentLoaded in blue) is of 500ms.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+When you launched your `yarn build`, you could see that the size of your chunks was displayed. Our biggest one has a size of 500Kb gzipped. That is waaaay too much. But why is that ?
 
-### `yarn eject`
+I installed for you webpack bundle analyzer to see what contains this chunk.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Launch it:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+yarn analyze
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Now you can see whats in our bundle. We have several big big libraries: highlightjs is over 188Kb, highcharts 100Kb, moment 65Kb.
